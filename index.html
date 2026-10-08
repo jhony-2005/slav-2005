@@ -1,0 +1,5267 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Небольшая страница, созданная специально для одного знакомства."
+    >
+
+    <title>Для Иулии — небольшое знакомство</title>
+
+
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         BOOTSTRAP ICONS
+    ========================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <!-- =========================================================
+         FONTS
+    ========================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;500;600;700&family=DM+Sans:wght@300;400;500;500;600&family=Great+Vibes&display=swap"
+        rel="stylesheet"
+    >
+
+
+<style>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --cream: #f7f1e9;
+    --cream-light: #fcf9f5;
+    --paper: #fffdf9;
+
+    --rose: #c99798;
+    --rose-light: #e7c5c3;
+    --rose-dark: #a97678;
+
+    --brown: #5e4b48;
+    --brown-light: #8c7772;
+
+    --gold: #c7a77a;
+
+    --ink: #403635;
+    --muted: #8e817e;
+
+    --line: rgba(90, 70, 65, .14);
+
+    --serif: "Cormorant Garamond", serif;
+    --sans: "DM Sans", sans-serif;
+    --script: "Great Vibes", cursive;
+
+    --shadow:
+        0 30px 80px rgba(85, 65, 60, .14);
+
+    --soft-shadow:
+        0 15px 45px rgba(85, 65, 60, .10);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(231,197,195,.30),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(199,167,122,.12),
+            transparent 30%
+        ),
+        var(--cream);
+
+    color: var(--ink);
+
+    font-family: var(--sans);
+
+    overflow-x: hidden;
+}
+
+body.gallery-open {
+    overflow: hidden;
+}
+
+::selection {
+    background: var(--rose-light);
+    color: var(--ink);
+}
+
+button {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   PAPER TEXTURE
+========================================================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 9998;
+
+    opacity: .18;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+
+    mix-blend-mode: multiply;
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(231,197,195,.55),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(199,167,122,.18),
+            transparent 35%
+        ),
+        #f5eee6;
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease,
+        transform 1s ease;
+}
+
+#loginScreen.hidden {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: scale(1.03);
+}
+
+.login-decoration {
+
+    position: absolute;
+
+    border:
+        1px solid
+        rgba(169,118,120,.15);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.login-decoration.one {
+
+    width: 550px;
+    height: 550px;
+
+    left: -280px;
+    top: -230px;
+}
+
+.login-decoration.two {
+
+    width: 650px;
+    height: 650px;
+
+    right: -350px;
+    bottom: -350px;
+}
+
+.login-book {
+
+    position: relative;
+
+    width: min(470px, 100%);
+
+    padding: 55px 50px 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.96),
+            rgba(250,243,236,.96)
+        );
+
+    border:
+        1px solid
+        rgba(100,75,70,.12);
+
+    box-shadow:
+        0 40px 100px
+        rgba(75,55,50,.16);
+
+    text-align: center;
+
+    transform: rotate(-.5deg);
+
+    animation:
+        loginFloat
+        5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes loginFloat {
+
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(-.5deg);
+    }
+
+    50% {
+        transform:
+            translateY(-7px)
+            rotate(.3deg);
+    }
+}
+
+.login-book::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 16px;
+    top: 16px;
+    bottom: 16px;
+
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(169,118,120,.25),
+            transparent
+        );
+}
+
+.login-small {
+
+    color: var(--rose-dark);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 20px;
+}
+
+.login-title {
+
+    font-family: var(--serif);
+
+    font-size: 58px;
+
+    line-height: .9;
+
+    font-weight: 400;
+
+    color: var(--brown);
+
+    margin-bottom: 12px;
+}
+
+.login-title span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.login-subtitle {
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 19px;
+
+    line-height: 1.5;
+
+    margin-bottom: 35px;
+}
+
+.login-heart {
+
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(169,118,120,.3);
+
+    color: var(--rose-dark);
+
+    font-size: 18px;
+}
+
+.login-field {
+
+    position: relative;
+
+    margin-bottom: 14px;
+}
+
+.login-field i {
+
+    position: absolute;
+
+    left: 17px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--rose-dark);
+
+    z-index: 2;
+}
+
+.login-input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding:
+        0 18px 0 48px;
+
+    border:
+        1px solid
+        rgba(90,70,65,.15);
+
+    background:
+        rgba(255,255,255,.7);
+
+    color: var(--ink);
+
+    outline: none;
+
+    border-radius: 3px;
+
+    transition: .3s ease;
+}
+
+.login-input:focus {
+
+    border-color: var(--rose);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(201,151,152,.10);
+}
+
+.login-input::placeholder {
+    color: #aaa09c;
+}
+
+.login-button {
+
+    width: 100%;
+
+    height: 54px;
+
+    margin-top: 8px;
+
+    border: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--rose-dark),
+            var(--rose)
+        );
+
+    color: white;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.login-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(169,118,120,.25);
+}
+
+.login-error {
+
+    min-height: 20px;
+
+    margin-top: 13px;
+
+    color: #b76d70;
+
+    font-size: 12px;
+
+    opacity: 0;
+
+    transition: .3s ease;
+}
+
+.login-error.show {
+    opacity: 1;
+}
+
+.login-hint {
+
+    margin-top: 24px;
+
+    color: #aaa09c;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+#mainPage {
+
+    display: none;
+
+    opacity: 0;
+}
+
+#mainPage.visible {
+
+    display: block;
+
+    animation:
+        pageAppear
+        1.5s
+        ease
+        forwards;
+}
+
+@keyframes pageAppear {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    padding: 24px 0;
+
+    transition: .5s ease;
+}
+
+.navbar.scrolled {
+
+    padding: 13px 0;
+
+    background:
+        rgba(249,243,237,.88);
+
+    backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid var(--line);
+}
+
+.brand {
+
+    font-family: var(--serif);
+
+    font-size: 26px;
+
+    color: var(--brown);
+
+    letter-spacing: 1px;
+}
+
+.brand span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.nav-link {
+
+    color: var(--brown-light) !important;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-left: 28px;
+
+    position: relative;
+}
+
+.nav-link::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 2px;
+
+    width: 0;
+    height: 1px;
+
+    background:
+        var(--rose-dark);
+
+    transition: .3s ease;
+}
+
+.nav-link:hover {
+
+    color:
+        var(--rose-dark) !important;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar-toggler {
+
+    border-color:
+        rgba(90,70,65,.2);
+}
+
+.navbar-toggler:focus {
+
+    box-shadow:
+        0 0 0 3px
+        rgba(201,151,152,.12);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 150px 0 100px;
+
+    overflow: hidden;
+}
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(231,197,195,.45),
+            transparent 68%
+        );
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+}
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 850px;
+
+    text-align: center;
+}
+
+.hero-label {
+
+    color: var(--rose-dark);
+
+    font-size: 10px;
+
+    letter-spacing: 5px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    margin-bottom: 30px;
+}
+
+.hero-title {
+
+    font-family: var(--serif);
+
+    color: var(--brown);
+
+    font-size:
+        clamp(55px, 8vw, 105px);
+
+    line-height: .88;
+
+    font-weight: 300;
+
+    letter-spacing: -3px;
+
+    margin-bottom: 35px;
+}
+
+.hero-title span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.hero-text {
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 23px;
+
+    line-height: 1.55;
+}
+
+.hero-scroll {
+
+    margin-top: 55px;
+
+    display: inline-flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 3px;
+
+    text-decoration: none;
+}
+
+.hero-scroll i {
+
+    color: var(--rose-dark);
+
+    animation:
+        scrollArrow
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes scrollArrow {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(7px);
+    }
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro {
+
+    padding: 140px 0;
+
+    background:
+        rgba(255,255,255,.28);
+
+    border-top:
+        1px solid
+        rgba(90,70,65,.06);
+
+    border-bottom:
+        1px solid
+        rgba(90,70,65,.06);
+}
+
+.chapter-label {
+
+    color: var(--rose-dark);
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    font-weight: 600;
+
+    margin-bottom: 25px;
+}
+
+.intro-title {
+
+    font-family: var(--serif);
+
+    color: var(--brown);
+
+    font-size:
+        clamp(48px, 6vw, 75px);
+
+    line-height: .95;
+
+    font-weight: 300;
+}
+
+.intro-title span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.intro-copy {
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 23px;
+
+    line-height: 1.65;
+}
+
+.intro-note {
+
+    margin-top: 30px;
+
+    padding: 25px 28px;
+
+    border-left:
+        2px solid
+        var(--rose);
+
+    background:
+        rgba(255,255,255,.45);
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 20px;
+
+    font-style: italic;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   WALL GALLERY SECTION
+========================================================= */
+
+.album-section {
+
+    padding: 150px 0 170px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.album-heading {
+
+    text-align: center;
+
+    margin-bottom: 75px;
+}
+
+.album-title {
+
+    font-family: var(--serif);
+
+    font-size:
+        clamp(52px, 7vw, 90px);
+
+    line-height: .9;
+
+    font-weight: 300;
+
+    color: var(--brown);
+}
+
+.album-title span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.album-subtitle {
+
+    max-width: 650px;
+
+    margin: 25px auto 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   GALLERY WALL
+========================================================= */
+
+.gallery-wall {
+
+    position: relative;
+
+    width: min(1180px, 100%);
+
+    margin: 0 auto;
+
+    min-height: 1120px;
+
+    padding: 50px 35px 80px;
+
+    background:
+        radial-gradient(
+            circle at 30% 20%,
+            rgba(255,255,255,.75),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.38),
+            rgba(236,223,210,.32)
+        );
+
+    border:
+        1px solid
+        rgba(90,70,65,.09);
+
+    box-shadow:
+        0 40px 100px
+        rgba(80,60,55,.09);
+
+    perspective: 1600px;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   WALL DECORATION
+========================================================= */
+
+.gallery-wall::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 18px;
+
+    border:
+        1px solid
+        rgba(199,167,122,.16);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.gallery-wall::after {
+
+    content: "24 MOMENTS";
+
+    position: absolute;
+
+    top: 22px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        rgba(169,118,120,.32);
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: 5px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GALLERY ITEMS
+========================================================= */
+
+.gallery-item {
+
+    position: absolute;
+
+    width: 190px;
+
+    height: 245px;
+
+    padding: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #faf6f0
+        );
+
+    border:
+        1px solid
+        rgba(90,70,65,.13);
+
+    box-shadow:
+        0 18px 35px
+        rgba(70,50,45,.13);
+
+    cursor: pointer;
+
+    transform:
+        translate3d(0,0,0)
+        rotate(var(--rotation));
+
+    transition:
+        transform .55s cubic-bezier(.2,.8,.2,1),
+        box-shadow .55s ease,
+        opacity .45s ease,
+        filter .45s ease;
+
+    will-change: transform;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   PHOTO
+========================================================= */
+
+.gallery-item img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform .7s cubic-bezier(.2,.8,.2,1),
+        filter .5s ease;
+}
+
+
+/* =========================================================
+   INNER FRAME
+========================================================= */
+
+.gallery-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
+
+    border:
+        1px solid
+        rgba(199,167,122,.28);
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   GALLERY HOVER
+========================================================= */
+
+.gallery-item:hover {
+
+    transform:
+        translateY(-12px)
+        rotate(0deg)
+        scale(1.035);
+
+    box-shadow:
+        0 30px 55px
+        rgba(70,50,45,.22);
+
+    z-index: 20;
+}
+
+.gallery-item:hover img {
+
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   POSITIONS
+========================================================= */
+
+/*
+    24 poziții diferite.
+    Arată intenționat imperfect,
+    ca o galerie foto reală.
+*/
+
+
+.gallery-item:nth-child(1) {
+    left: 7%;
+    top: 80px;
+    --rotation: -3deg;
+}
+
+.gallery-item:nth-child(2) {
+    left: 26%;
+    top: 45px;
+    --rotation: 2deg;
+}
+
+.gallery-item:nth-child(3) {
+    left: 46%;
+    top: 75px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(4) {
+    left: 67%;
+    top: 45px;
+    --rotation: 3deg;
+}
+
+
+.gallery-item:nth-child(5) {
+    left: 84%;
+    top: 175px;
+    --rotation: -4deg;
+}
+
+.gallery-item:nth-child(6) {
+    left: 14%;
+    top: 345px;
+    --rotation: 3deg;
+}
+
+.gallery-item:nth-child(7) {
+    left: 35%;
+    top: 330px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(8) {
+    left: 56%;
+    top: 355px;
+    --rotation: 2.5deg;
+}
+
+
+.gallery-item:nth-child(9) {
+    left: 75%;
+    top: 390px;
+    --rotation: -3deg;
+}
+
+.gallery-item:nth-child(10) {
+    left: 3%;
+    top: 620px;
+    --rotation: 2deg;
+}
+
+.gallery-item:nth-child(11) {
+    left: 23%;
+    top: 590px;
+    --rotation: -3deg;
+}
+
+.gallery-item:nth-child(12) {
+    left: 44%;
+    top: 625px;
+    --rotation: 2deg;
+}
+
+
+.gallery-item:nth-child(13) {
+    left: 65%;
+    top: 600px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(14) {
+    left: 83%;
+    top: 665px;
+    --rotation: 4deg;
+}
+
+.gallery-item:nth-child(15) {
+    left: 10%;
+    top: 850px;
+    --rotation: -3deg;
+}
+
+.gallery-item:nth-child(16) {
+    left: 29%;
+    top: 820px;
+    --rotation: 2deg;
+}
+
+
+.gallery-item:nth-child(17) {
+    left: 49%;
+    top: 855px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(18) {
+    left: 69%;
+    top: 825px;
+    --rotation: 3deg;
+}
+
+.gallery-item:nth-child(19) {
+    left: 86%;
+    top: 895px;
+    --rotation: -3deg;
+}
+
+
+/* =========================================================
+   EXTRA ROW
+========================================================= */
+
+.gallery-item:nth-child(20) {
+    left: 17%;
+    top: 1010px;
+    --rotation: 2deg;
+}
+
+.gallery-item:nth-child(21) {
+    left: 36%;
+    top: 1005px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(22) {
+    left: 55%;
+    top: 1020px;
+    --rotation: 3deg;
+}
+
+.gallery-item:nth-child(23) {
+    left: 73%;
+    top: 1010px;
+    --rotation: -2deg;
+}
+
+.gallery-item:nth-child(24) {
+    left: 89%;
+    top: 1035px;
+    --rotation: 3deg;
+}
+
+
+/* =========================================================
+   GALLERY COUNTER
+========================================================= */
+
+.gallery-counter {
+
+    margin-top: 35px;
+
+    text-align: center;
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 18px;
+}
+
+.gallery-counter span {
+
+    color: var(--rose-dark);
+}
+
+
+/* =========================================================
+   CINEMATIC LIGHTBOX
+========================================================= */
+
+.gallery-lightbox {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px;
+
+    background:
+        rgba(30,22,21,.74);
+
+    backdrop-filter:
+        blur(0px);
+
+    -webkit-backdrop-filter:
+        blur(0px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity .45s ease,
+        visibility .45s ease,
+        backdrop-filter .55s ease;
+}
+
+.gallery-lightbox.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+}
+
+
+/* =========================================================
+   LIGHTBOX BACKGROUND GLOW
+========================================================= */
+
+.lightbox-glow {
+
+    position: absolute;
+
+    width: 70vw;
+    height: 70vw;
+
+    max-width: 900px;
+    max-height: 900px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,151,152,.22),
+            transparent 65%
+        );
+
+    pointer-events: none;
+
+    filter: blur(25px);
+}
+
+
+/* =========================================================
+   LIGHTBOX IMAGE WRAPPER
+========================================================= */
+
+.lightbox-photo {
+
+    position: relative;
+
+    max-width: min(850px, 78vw);
+
+    max-height: 82vh;
+
+    padding: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #f8f1e9
+        );
+
+    box-shadow:
+        0 50px 120px
+        rgba(0,0,0,.42);
+
+    transform:
+        translateY(35px)
+        scale(.82)
+        rotate(-1.5deg);
+
+    opacity: 0;
+
+    transition:
+        transform .65s cubic-bezier(.16,1,.3,1),
+        opacity .45s ease;
+}
+
+.gallery-lightbox.active .lightbox-photo {
+
+    transform:
+        translateY(0)
+        scale(1)
+        rotate(0deg);
+
+    opacity: 1;
+}
+
+.lightbox-photo::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 7px;
+
+    border:
+        1px solid
+        rgba(199,167,122,.35);
+
+    pointer-events: none;
+
+    z-index: 3;
+}
+
+.lightbox-photo img {
+
+    display: block;
+
+    max-width: min(820px, 75vw);
+
+    max-height: 78vh;
+
+    width: auto;
+
+    height: auto;
+
+    min-width: 260px;
+
+    min-height: 260px;
+
+    object-fit: contain;
+
+    background: #eee5dc;
+
+    transition:
+        opacity .25s ease;
+}
+
+
+/* =========================================================
+   LIGHTBOX CAPTION
+========================================================= */
+
+.lightbox-caption {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: -52px;
+
+    transform:
+        translateX(-50%);
+
+    color: rgba(255,255,255,.9);
+
+    font-family: var(--serif);
+
+    font-size: 21px;
+
+    font-style: italic;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.4);
+}
+
+
+/* =========================================================
+   LIGHTBOX CLOSE
+========================================================= */
+
+.lightbox-close {
+
+    position: absolute;
+
+    top: 25px;
+
+    right: 30px;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.08);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition:
+        background .3s ease,
+        transform .3s ease;
+}
+
+.lightbox-close:hover {
+
+    background:
+        rgba(255,255,255,.18);
+
+    transform:
+        rotate(90deg);
+}
+
+
+/* =========================================================
+   LIGHTBOX NAVIGATION
+========================================================= */
+
+.lightbox-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 62px;
+    height: 62px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.08);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition:
+        background .3s ease,
+        transform .3s ease;
+}
+
+.lightbox-arrow:hover {
+
+    background:
+        rgba(255,255,255,.18);
+}
+
+.lightbox-arrow.prev {
+
+    left: 35px;
+}
+
+.lightbox-arrow.next {
+
+    right: 35px;
+}
+
+.lightbox-arrow.prev:hover {
+
+    transform:
+        translateY(-50%)
+        translateX(-4px);
+}
+
+.lightbox-arrow.next:hover {
+
+    transform:
+        translateY(-50%)
+        translateX(4px);
+}
+
+
+/* =========================================================
+   LIGHTBOX NUMBER
+========================================================= */
+
+.lightbox-number {
+
+    position: absolute;
+
+    top: 32px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        rgba(255,255,255,.75);
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LIGHTBOX HINT
+========================================================= */
+
+.lightbox-hint {
+
+    position: absolute;
+
+    bottom: 25px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        rgba(255,255,255,.48);
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   FINAL INTRO
+========================================================= */
+
+.final-intro {
+
+    padding: 150px 0;
+
+    text-align: center;
+
+    background:
+        rgba(255,255,255,.35);
+}
+
+.final-intro-label {
+
+    color: var(--rose-dark);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+}
+
+.final-intro h2 {
+
+    font-family: var(--serif);
+
+    font-size:
+        clamp(50px, 7vw, 85px);
+
+    font-weight: 300;
+
+    line-height: .9;
+
+    color: var(--brown);
+}
+
+.final-intro h2 span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.final-intro p {
+
+    max-width: 600px;
+
+    margin: 30px auto 0;
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 22px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MY PHOTO
+========================================================= */
+
+.my-page-section {
+
+    min-height: 100vh;
+
+    padding: 130px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(231,197,195,.40),
+            transparent 50%
+        ),
+        #f5eee6;
+}
+
+.my-page {
+
+    max-width: 850px;
+
+    margin: auto;
+}
+
+.my-page-label {
+
+    color: var(--rose-dark);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 30px;
+}
+
+.my-photo-wrapper {
+
+    width: min(400px, 85vw);
+
+    aspect-ratio: 3 / 4;
+
+    margin: 0 auto 45px;
+
+    padding: 15px;
+
+    background: white;
+
+    box-shadow:
+        0 35px 80px
+        rgba(80,55,50,.18);
+
+    transform:
+        rotate(-1.3deg);
+
+    transition:
+        transform .7s ease;
+}
+
+.my-photo-wrapper:hover {
+
+    transform:
+        rotate(0deg)
+        translateY(-8px);
+}
+
+.my-photo-wrapper img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.my-page-title {
+
+    font-family: var(--serif);
+
+    color: var(--brown);
+
+    font-size:
+        clamp(48px, 7vw, 80px);
+
+    line-height: .9;
+
+    font-weight: 300;
+}
+
+.my-page-title span {
+
+    color: var(--rose-dark);
+
+    font-style: italic;
+}
+
+.my-message {
+
+    max-width: 650px;
+
+    margin: 30px auto 0;
+
+    color: var(--brown-light);
+
+    font-family: var(--serif);
+
+    font-size: 23px;
+
+    line-height: 1.65;
+}
+
+.signature {
+
+    margin-top: 45px;
+
+    color: var(--rose-dark);
+
+    font-family: var(--script);
+
+    font-size: 55px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    background:
+        #eee5db;
+
+    border-top:
+        1px solid var(--line);
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+footer span {
+    color: var(--rose-dark);
+}
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+.music-button {
+
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    width: 50px;
+    height: 50px;
+
+    z-index: 1000;
+
+    border:
+        1px solid
+        rgba(90,70,65,.18);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,253,249,.82);
+
+    backdrop-filter:
+        blur(10px);
+
+    color: var(--rose-dark);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px
+        rgba(70,50,45,.10);
+
+    transition: .3s ease;
+}
+
+.music-button:hover {
+
+    transform:
+        scale(1.08);
+
+    background:
+        var(--rose-dark);
+
+    color: white;
+}
+
+.music-button.playing i {
+
+    animation:
+        musicPulse
+        1.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes musicPulse {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   HEARTS
+========================================================= */
+
+.floating-heart {
+
+    position: fixed;
+
+    z-index: 9997;
+
+    pointer-events: none;
+
+    color: var(--rose);
+
+    font-size: 20px;
+
+    animation:
+        heartUp
+        2s
+        ease-out
+        forwards;
+}
+
+@keyframes heartUp {
+
+    from {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(.7);
+    }
+
+    to {
+
+        opacity: 0;
+
+        transform:
+            translateY(-130px)
+            scale(1.4);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    .gallery-wall {
+
+        min-height: 1350px;
+    }
+
+    .gallery-item {
+
+        width: 175px;
+
+        height: 225px;
+    }
+
+    .gallery-item:nth-child(1) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(2) {
+        left: 25%;
+    }
+
+    .gallery-item:nth-child(3) {
+        left: 47%;
+    }
+
+    .gallery-item:nth-child(4) {
+        left: 69%;
+    }
+
+    .gallery-item:nth-child(5) {
+        left: 80%;
+        top: 280px;
+    }
+
+    .gallery-item:nth-child(6) {
+        left: 7%;
+        top: 350px;
+    }
+
+    .gallery-item:nth-child(7) {
+        left: 29%;
+        top: 340px;
+    }
+
+    .gallery-item:nth-child(8) {
+        left: 51%;
+        top: 365px;
+    }
+
+    .gallery-item:nth-child(9) {
+        left: 73%;
+        top: 390px;
+    }
+
+    .gallery-item:nth-child(10) {
+        left: 2%;
+        top: 630px;
+    }
+
+    .gallery-item:nth-child(11) {
+        left: 25%;
+        top: 600px;
+    }
+
+    .gallery-item:nth-child(12) {
+        left: 48%;
+        top: 630px;
+    }
+
+    .gallery-item:nth-child(13) {
+        left: 70%;
+        top: 610px;
+    }
+
+    .gallery-item:nth-child(14) {
+        left: 80%;
+        top: 850px;
+    }
+
+    .gallery-item:nth-child(15) {
+        left: 5%;
+        top: 860px;
+    }
+
+    .gallery-item:nth-child(16) {
+        left: 27%;
+        top: 840px;
+    }
+
+    .gallery-item:nth-child(17) {
+        left: 50%;
+        top: 870px;
+    }
+
+    .gallery-item:nth-child(18) {
+        left: 72%;
+        top: 900px;
+    }
+
+    .gallery-item:nth-child(19) {
+        left: 8%;
+        top: 1110px;
+    }
+
+    .gallery-item:nth-child(20) {
+        left: 29%;
+        top: 1080px;
+    }
+
+    .gallery-item:nth-child(21) {
+        left: 50%;
+        top: 1110px;
+    }
+
+    .gallery-item:nth-child(22) {
+        left: 72%;
+        top: 1090px;
+    }
+
+    .gallery-item:nth-child(23) {
+        left: 20%;
+        top: 1280px;
+    }
+
+    .gallery-item:nth-child(24) {
+        left: 55%;
+        top: 1270px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .navbar-collapse {
+
+        margin-top: 15px;
+
+        padding:
+            15px 20px;
+
+        background:
+            rgba(255,253,249,.95);
+
+        border:
+            1px solid var(--line);
+    }
+
+    .nav-link {
+
+        margin-left: 0;
+
+        padding: 10px 0;
+    }
+
+    .hero {
+
+        padding:
+            130px 20px 90px;
+    }
+
+    .hero-text {
+
+        font-size: 19px;
+    }
+
+    .intro,
+    .album-section,
+    .final-intro {
+
+        padding:
+            100px 0;
+    }
+
+
+    /* -----------------------------------------
+       MOBILE GALLERY
+    ----------------------------------------- */
+
+    .gallery-wall {
+
+        width: calc(100% - 24px);
+
+        min-height: 2450px;
+
+        padding: 55px 10px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,255,255,.45),
+                rgba(236,223,210,.3)
+            );
+    }
+
+    .gallery-wall::after {
+
+        top: 20px;
+
+        font-size: 7px;
+
+        letter-spacing: 3px;
+    }
+
+    .gallery-item {
+
+        width: 135px;
+
+        height: 175px;
+    }
+
+
+    .gallery-item:nth-child(1) {
+        left: 8%;
+        top: 70px;
+    }
+
+    .gallery-item:nth-child(2) {
+        left: 52%;
+        top: 55px;
+    }
+
+    .gallery-item:nth-child(3) {
+        left: 24%;
+        top: 270px;
+    }
+
+    .gallery-item:nth-child(4) {
+        left: 63%;
+        top: 285px;
+    }
+
+    .gallery-item:nth-child(5) {
+        left: 5%;
+        top: 475px;
+    }
+
+    .gallery-item:nth-child(6) {
+        left: 51%;
+        top: 490px;
+    }
+
+    .gallery-item:nth-child(7) {
+        left: 18%;
+        top: 695px;
+    }
+
+    .gallery-item:nth-child(8) {
+        left: 60%;
+        top: 720px;
+    }
+
+    .gallery-item:nth-child(9) {
+        left: 5%;
+        top: 920px;
+    }
+
+    .gallery-item:nth-child(10) {
+        left: 52%;
+        top: 900px;
+    }
+
+    .gallery-item:nth-child(11) {
+        left: 23%;
+        top: 1120px;
+    }
+
+    .gallery-item:nth-child(12) {
+        left: 63%;
+        top: 1140px;
+    }
+
+    .gallery-item:nth-child(13) {
+        left: 5%;
+        top: 1345px;
+    }
+
+    .gallery-item:nth-child(14) {
+        left: 52%;
+        top: 1325px;
+    }
+
+    .gallery-item:nth-child(15) {
+        left: 20%;
+        top: 1550px;
+    }
+
+    .gallery-item:nth-child(16) {
+        left: 63%;
+        top: 1575px;
+    }
+
+    .gallery-item:nth-child(17) {
+        left: 5%;
+        top: 1780px;
+    }
+
+    .gallery-item:nth-child(18) {
+        left: 52%;
+        top: 1800px;
+    }
+
+    .gallery-item:nth-child(19) {
+        left: 22%;
+        top: 2010px;
+    }
+
+    .gallery-item:nth-child(20) {
+        left: 64%;
+        top: 2035px;
+    }
+
+    .gallery-item:nth-child(21) {
+        left: 5%;
+        top: 2240px;
+    }
+
+    .gallery-item:nth-child(22) {
+        left: 51%;
+        top: 2260px;
+    }
+
+    .gallery-item:nth-child(23) {
+        left: 23%;
+        top: 2450px;
+    }
+
+    .gallery-item:nth-child(24) {
+        left: 63%;
+        top: 2460px;
+    }
+
+
+    .gallery-lightbox {
+
+        padding: 20px;
+    }
+
+    .lightbox-photo {
+
+        max-width: 88vw;
+
+        max-height: 72vh;
+
+        padding: 9px;
+    }
+
+    .lightbox-photo img {
+
+        max-width: 82vw;
+
+        max-height: 68vh;
+
+        min-width: 0;
+
+        min-height: 0;
+    }
+
+    .lightbox-arrow {
+
+        width: 45px;
+        height: 45px;
+
+        font-size: 17px;
+
+        background:
+            rgba(255,255,255,.12);
+    }
+
+    .lightbox-arrow.prev {
+
+        left: 12px;
+    }
+
+    .lightbox-arrow.next {
+
+        right: 12px;
+    }
+
+    .lightbox-close {
+
+        top: 15px;
+
+        right: 15px;
+
+        width: 45px;
+        height: 45px;
+    }
+
+    .lightbox-caption {
+
+        bottom: -42px;
+
+        font-size: 18px;
+    }
+
+    .lightbox-hint {
+
+        display: none;
+    }
+
+    .my-photo-wrapper {
+
+        width:
+            min(340px, 82vw);
+    }
+
+    .signature {
+        font-size: 45px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .login-book {
+
+        padding:
+            45px 28px 40px;
+    }
+
+    .login-title {
+
+        font-size: 48px;
+    }
+
+    .hero-title {
+
+        font-size: 50px;
+
+        letter-spacing: -2px;
+    }
+
+    .intro-title {
+
+        font-size: 48px;
+    }
+
+    .album-title {
+
+        font-size: 50px;
+    }
+
+    .my-page-title {
+
+        font-size: 48px;
+    }
+
+    .my-message {
+
+        font-size: 20px;
+    }
+
+    .music-button {
+
+        right: 15px;
+        bottom: 15px;
+    }
+
+    .gallery-wall {
+
+        min-height: 2450px;
+    }
+
+    .gallery-item {
+
+        width: 125px;
+
+        height: 163px;
+    }
+
+    .gallery-item:nth-child(1) {
+        left: 7%;
+    }
+
+    .gallery-item:nth-child(2) {
+        left: 52%;
+    }
+
+    .gallery-item:nth-child(3) {
+        left: 19%;
+    }
+
+    .gallery-item:nth-child(4) {
+        left: 58%;
+    }
+
+    .gallery-item:nth-child(5) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(6) {
+        left: 51%;
+    }
+
+    .gallery-item:nth-child(7) {
+        left: 16%;
+    }
+
+    .gallery-item:nth-child(8) {
+        left: 59%;
+    }
+
+    .gallery-item:nth-child(9) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(10) {
+        left: 51%;
+    }
+
+    .gallery-item:nth-child(11) {
+        left: 18%;
+    }
+
+    .gallery-item:nth-child(12) {
+        left: 60%;
+    }
+
+    .gallery-item:nth-child(13) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(14) {
+        left: 51%;
+    }
+
+    .gallery-item:nth-child(15) {
+        left: 17%;
+    }
+
+    .gallery-item:nth-child(16) {
+        left: 60%;
+    }
+
+    .gallery-item:nth-child(17) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(18) {
+        left: 51%;
+    }
+
+    .gallery-item:nth-child(19) {
+        left: 18%;
+    }
+
+    .gallery-item:nth-child(20) {
+        left: 60%;
+    }
+
+    .gallery-item:nth-child(21) {
+        left: 4%;
+    }
+
+    .gallery-item:nth-child(22) {
+        left: 51%;
+    }
+
+    .gallery-item:nth-child(23) {
+        left: 18%;
+    }
+
+    .gallery-item:nth-child(24) {
+        left: 60%;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: .01ms !important;
+
+        scroll-behavior: auto !important;
+    }
+}
+
+
+
+/* =========================================================
+   FINAL GALLERY OVERRIDES — 24 SQUARE PHOTOS IN ONE FRAME
+========================================================= */
+.gallery-wall {
+    width: min(1180px, calc(100% - 30px));
+    aspect-ratio: 1 / 1;
+    min-height: 0 !important;
+    height: auto;
+    padding: 55px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+    perspective: none;
+}
+
+.gallery-wall::before {
+    inset: 18px;
+}
+
+.gallery-wall::after {
+    top: 24px;
+}
+
+.gallery-item {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+    min-height: 0;
+    padding: 7px;
+    transform: rotate(var(--rotation));
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.gallery-item:hover {
+    transform: translateY(-7px) rotate(0deg) scale(1.045);
+    z-index: 20;
+}
+
+.gallery-counter {
+    margin-top: 35px;
+    padding: 0 20px;
+    text-align: center;
+    color: var(--brown-light);
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 23px);
+    line-height: 1.4;
+}
+
+.gallery-counter span {
+    color: var(--rose-dark);
+}
+
+@media (max-width: 1199px) {
+    .gallery-wall {
+        width: min(940px, calc(100% - 30px));
+        padding: 48px;
+        gap: 13px;
+    }
+}
+
+@media (max-width: 767px) {
+    .gallery-wall {
+        width: calc(100% - 24px);
+        aspect-ratio: auto;
+        min-height: 0 !important;
+        padding: 42px 14px 24px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(8, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .gallery-wall::after {
+        top: 17px;
+        font-size: 6px;
+        letter-spacing: 3px;
+    }
+
+    .gallery-item {
+        width: 100% !important;
+        aspect-ratio: 1 / 1;
+        padding: 5px;
+    }
+
+    .gallery-item:hover {
+        transform: rotate(0deg) scale(1.035);
+    }
+
+    .gallery-counter {
+        margin-top: 25px;
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-wall {
+        width: calc(100% - 18px);
+        padding: 38px 9px 18px;
+        gap: 7px;
+    }
+
+    .gallery-item {
+        padding: 4px;
+    }
+
+    .gallery-counter {
+        font-size: 18px;
+    }
+}
+
+</style>
+
+
+<style id="personalized-redesign">
+/* =========================================================
+   PERSONALIZED REDESIGN
+========================================================= */
+
+:root{
+    --paper:#f7f0e9;
+    --paper-2:#fbf8f4;
+    --ink:#554542;
+    --rose-soft:#d8b1b1;
+    --rose-deep:#9f6e72;
+    --gold-soft:#c8aa82;
+}
+
+body{
+    background:
+        radial-gradient(circle at 15% 10%, rgba(225,196,190,.30), transparent 30%),
+        radial-gradient(circle at 85% 35%, rgba(203,174,135,.13), transparent 28%),
+        var(--paper);
+}
+
+/* More editorial navbar */
+.navbar{
+    background:rgba(250,246,241,.72)!important;
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(105,79,72,.08);
+}
+.brand{
+    position:relative;
+    text-decoration:none;
+}
+.brand::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-7px;
+    width:34px;
+    height:1px;
+    background:var(--rose-deep);
+    transition:.35s ease;
+}
+.brand:hover::after{width:100%;}
+
+/* Hero becomes a deliberate editorial cover instead of an empty screen */
+.hero{
+    min-height:92vh;
+    padding:120px 0 80px;
+    isolation:isolate;
+}
+.hero::before{
+    width:780px;
+    height:780px;
+    background:
+        radial-gradient(circle, rgba(221,190,188,.36), rgba(221,190,188,.08) 38%, transparent 70%);
+    filter:blur(2px);
+}
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:28px;
+    border:1px solid rgba(111,82,75,.07);
+    pointer-events:none;
+    z-index:0;
+}
+.hero-content{
+    max-width:760px;
+    padding:54px 68px 58px;
+    background:rgba(255,252,248,.54);
+    border:1px solid rgba(111,82,75,.10);
+    box-shadow:
+        0 35px 100px rgba(75,55,50,.09),
+        inset 0 0 0 10px rgba(255,255,255,.13);
+    position:relative;
+}
+.hero-content::before,
+.hero-content::after{
+    content:"";
+    position:absolute;
+    width:72px;
+    height:72px;
+    border-color:rgba(159,110,114,.28);
+    pointer-events:none;
+}
+.hero-content::before{
+    top:15px;left:15px;
+    border-top:1px solid;border-left:1px solid;
+}
+.hero-content::after{
+    right:15px;bottom:15px;
+    border-right:1px solid;border-bottom:1px solid;
+}
+.hero-mini{
+    color:rgba(159,110,114,.72);
+    font:600 9px/1 Arial,sans-serif;
+    letter-spacing:5px;
+    margin-bottom:18px;
+}
+.hero-label{
+    letter-spacing:6px;
+    margin-bottom:24px;
+}
+.hero-title{
+    font-size:clamp(52px,7vw,94px);
+    margin-bottom:28px;
+}
+.hero-text{
+    font-size:20px;
+    max-width:630px;
+}
+.hero-scroll{
+    margin-top:38px;
+}
+.hero-scroll::before{
+    content:"";
+    width:1px;
+    height:34px;
+    background:linear-gradient(to bottom,transparent,var(--rose-soft));
+    display:block;
+    margin-bottom:4px;
+}
+
+/* Floating editorial details */
+.hero-orbit{
+    position:absolute;
+    border:1px solid rgba(159,110,114,.12);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:0;
+}
+.hero-orbit-one{
+    width:460px;height:460px;
+    left:-180px;top:16%;
+}
+.hero-orbit-two{
+    width:300px;height:300px;
+    right:-120px;bottom:12%;
+}
+.hero-spark{
+    position:absolute;
+    color:var(--rose-deep);
+    opacity:.55;
+    font-family:var(--serif);
+    pointer-events:none;
+    animation:softFloat 5s ease-in-out infinite;
+    z-index:1;
+}
+.hero-spark-one{right:16%;top:24%;font-size:22px;}
+.hero-spark-two{left:14%;bottom:23%;font-size:42px;animation-delay:1.2s;}
+.hero-side-note,
+.hero-date{
+    position:absolute;
+    z-index:2;
+    color:rgba(86,67,63,.42);
+    font:600 8px/1 Arial,sans-serif;
+    letter-spacing:3px;
+    writing-mode:vertical-rl;
+    text-transform:uppercase;
+}
+.hero-side-note{left:30px;top:38%;transform:rotate(180deg);}
+.hero-side-note span{margin:10px 0;}
+.hero-date{right:31px;bottom:31%;}
+
+@keyframes softFloat{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-9px) rotate(8deg);}
+}
+
+/* Give section transitions more personality */
+.intro,
+.album-section,
+.final-intro{
+    position:relative;
+}
+.intro::before,
+.album-section::before,
+.final-intro::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:1px;
+    height:42px;
+    background:linear-gradient(to bottom,rgba(159,110,114,.38),transparent);
+}
+
+/* Gallery: cleaner photo-album feeling */
+.gallery-wall{
+    border-radius:2px;
+    overflow:visible;
+    background:
+        radial-gradient(circle at 15% 15%,rgba(255,255,255,.85),transparent 28%),
+        radial-gradient(circle at 85% 75%,rgba(214,185,179,.14),transparent 30%),
+        linear-gradient(135deg,#fbf8f4,#eee4da);
+    box-shadow:
+        0 35px 90px rgba(76,56,50,.12),
+        inset 0 0 0 1px rgba(255,255,255,.4);
+}
+.gallery-wall::before{
+    inset:22px;
+    border:1px solid rgba(159,110,114,.12);
+}
+.gallery-wall::after{
+    content:"24  •  МОМЕНТА  •  ОДНА ИСТОРИЯ";
+    top:28px;
+    letter-spacing:4px;
+}
+.gallery-item{
+    border-radius:1px;
+    box-shadow:
+        0 14px 30px rgba(70,50,45,.12),
+        0 2px 5px rgba(70,50,45,.07);
+}
+.gallery-item::after{
+    inset:5px;
+}
+.gallery-item:hover{
+    box-shadow:
+        0 28px 55px rgba(70,50,45,.24),
+        0 0 0 5px rgba(255,255,255,.65);
+}
+
+/* Counter looks like a caption under a printed album */
+.gallery-counter{
+    margin:42px auto 0;
+    max-width:600px;
+    padding-top:20px;
+    position:relative;
+}
+.gallery-counter::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:42px;
+    height:1px;
+    background:var(--rose-soft);
+}
+.gallery-counter span{
+    font-style:italic;
+}
+
+/* Music control */
+.music-button{
+    width:56px;height:56px;
+    border-color:rgba(159,110,114,.25);
+    box-shadow:0 14px 35px rgba(70,50,45,.13);
+}
+.music-button::after{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border:1px solid rgba(159,110,114,.12);
+    border-radius:50%;
+    animation:musicRing 2.8s ease-in-out infinite;
+}
+@keyframes musicRing{
+    0%,100%{transform:scale(.94);opacity:.4;}
+    50%{transform:scale(1.08);opacity:1;}
+}
+
+/* Login */
+.login-book{
+    border-radius:2px;
+    box-shadow:
+        0 40px 100px rgba(75,55,50,.16),
+        0 0 0 8px rgba(255,255,255,.22);
+}
+.login-book::after{
+    content:"01 / 24";
+    position:absolute;
+    right:22px;
+    top:20px;
+    color:rgba(159,110,114,.35);
+    font:600 8px/1 Arial,sans-serif;
+    letter-spacing:3px;
+}
+.login-button{
+    position:relative;
+    overflow:hidden;
+}
+.login-button::before{
+    content:"";
+    position:absolute;
+    top:0;left:-120%;
+    width:80%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+    transform:skewX(-18deg);
+    transition:.7s;
+}
+.login-button:hover::before{left:130%;}
+
+/* Mobile */
+@media(max-width:767px){
+    .hero{
+        min-height:88vh;
+        padding:105px 16px 70px;
+    }
+    .hero::after{inset:14px;}
+    .hero-content{
+        padding:42px 24px 45px;
+        max-width:100%;
+    }
+    .hero-title{
+        font-size:clamp(45px,14vw,68px);
+        letter-spacing:-2px;
+    }
+    .hero-text{font-size:18px;}
+    .hero-side-note{display:none;}
+    .hero-date{right:18px;bottom:18%;}
+    .hero-orbit-one{width:300px;height:300px;left:-170px;}
+    .hero-orbit-two{width:220px;height:220px;right:-120px;}
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =============================================================
+     LOGIN SCREEN
+============================================================== -->
+
+<div id="loginScreen">
+
+    <div class="login-decoration one"></div>
+
+    <div class="login-decoration two"></div>
+
+
+    <div class="login-book">
+
+        <div class="login-heart">
+
+            <i class="bi bi-heart"></i>
+
+        </div>
+
+
+        <div class="login-small">
+            Небольшой сюрприз
+        </div>
+
+
+        <h1 class="login-title">
+
+            Для <span>Иулии</span>
+
+        </h1>
+
+
+        <p class="login-subtitle">
+
+            Здесь есть кое-что,
+            что я хотел бы тебе показать.
+
+        </p>
+
+
+        <form id="loginForm">
+
+            <div class="login-field">
+
+                <i class="bi bi-person"></i>
+
+                <input
+                    type="text"
+                    id="username"
+                    class="login-input"
+                    placeholder="Имя"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <div class="login-field">
+
+                <i class="bi bi-key"></i>
+
+                <input
+                    type="password"
+                    id="password"
+                    class="login-input"
+                    placeholder="Пароль"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Открыть
+            </button>
+
+
+            <div
+                class="login-error"
+                id="loginError"
+            >
+                Кажется, имя или пароль введены неправильно.
+            </div>
+
+        </form>
+
+
+        <div class="login-hint">
+
+            Иногда самые интересные страницы
+            открываются не сразу.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     MAIN PAGE
+============================================================== -->
+
+<div id="mainPage">
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <nav class="navbar navbar-expand-lg">
+
+        <div class="container">
+
+            <a
+                href="#top"
+                class="brand"
+            >
+                Небольшая <span>история</span>
+            </a>
+
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation"
+                aria-expanded="false"
+                aria-label="Открыть меню"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <div
+                class="collapse navbar-collapse justify-content-end"
+                id="mainNavigation"
+            >
+
+                <div class="navbar-nav">
+
+                    <a
+                        href="#introduction"
+                        class="nav-link"
+                    >
+                        Начало
+                    </a>
+
+                    <a
+                        href="#album"
+                        class="nav-link"
+                    >
+                        Галерея
+                    </a>
+
+                    <a
+                        href="#about"
+                        class="nav-link"
+                    >
+                        В конце
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <header
+        class="hero"
+        id="top"
+    >
+
+        <div class="hero-orbit hero-orbit-one"></div>
+        <div class="hero-orbit hero-orbit-two"></div>
+        <div class="hero-spark hero-spark-one">✦</div>
+        <div class="hero-spark hero-spark-two">·</div>
+        <div class="hero-side-note">24 МОМЕНТА <span>•</span> ОДНА ИСТОРИЯ</div>
+        <div class="hero-date">memory / 01</div>
+
+        <div class="container">
+
+            <div class="hero-content reveal">
+
+                <div class="hero-mini">01 / 24</div>
+
+                <div class="hero-label">
+                    История, которая началась давно
+                </div>
+
+
+                <h1 class="hero-title">
+
+                    Возможно,<br>
+
+                    <span>
+                        ты меня не помнишь.
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-text">
+
+                    Не думаю, что ты меня помнишь,
+                    но мы в детстве ездили в один летний лагерь
+                    и часто встречались на молодёжных конференциях —
+                    тогда я и представить себе не мог,
+                    что спустя годы случайно наткнусь
+                    на твою страницу в Instagram.
+
+                </p>
+
+
+                <a
+                    href="#introduction"
+                    class="hero-scroll"
+                >
+
+                    <span>
+                        Листать дальше
+                    </span>
+
+                    <i class="bi bi-arrow-down"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================================
+         INTRODUCTION
+    ========================================================== -->
+
+    <section
+        class="intro"
+        id="introduction"
+    >
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="chapter-label reveal">
+                        С чего всё началось
+                    </div>
+
+                    <h2 class="intro-title reveal">
+
+                        Когда-то мы были
+                        <br>
+
+                        <span>
+                            просто детьми.
+                        </span>
+
+                    </h2>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="intro-copy reveal">
+
+                        Мы встретились в детстве —
+                        в лагере «Елим» в Баурчи.
+
+                        <br><br>
+
+                        Тогда мы были детьми,
+                        вокруг было лето,
+                        молодёжные конференции,
+                        новые лица и обычные дни.
+
+                        <br><br>
+
+                        И, конечно же,
+                        никто из нас тогда
+                        не мог знать,
+                        что спустя много лет
+                        наши дороги снова
+                        каким-то образом пересекутся.
+
+                    </div>
+
+
+                    <div class="intro-note reveal">
+
+                        «Иногда люди из нашего прошлого
+                        неожиданно появляются в настоящем.
+                        И ты начинаешь думать:
+                        а почему именно сейчас?»
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         WALL GALLERY
+    ========================================================== -->
+
+    <section
+        class="album-section"
+        id="album"
+    >
+
+        <div class="container">
+
+            <div class="album-heading reveal">
+
+                <div class="chapter-label">
+                    24 момента
+                </div>
+
+                <h2 class="album-title">
+
+                    Маленькая <span>галерея</span>
+
+                </h2>
+
+                <p class="album-subtitle">
+
+                    Я не хотел просто отправить тебе
+                    несколько фотографий.
+
+                    <br>
+
+                    Поэтому собрал их в небольшую стену
+                    воспоминаний.
+
+                    <br>
+
+                    Нажми на любую фотографию.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 GALLERY WALL
+            ================================================== -->
+
+            <div
+                class="gallery-wall reveal"
+                id="galleryWall"
+            >
+
+                <div
+                    class="gallery-item"
+                    data-index="0"
+                >
+                    <img
+                        src="images/iulia-01.jpg"
+                        alt="Фотография Иулии 01"
+                        loading="eager"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="1"
+                >
+                    <img
+                        src="images/iulia-02.PNG"
+                        alt="Фотография Иулии 02"
+                        loading="eager"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="2"
+                >
+                    <img
+                        src="images/iulia-03.PNG"
+                        alt="Фотография Иулии 03"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="3"
+                >
+                    <img
+                        src="images/iulia-04.PNG"
+                        alt="Фотография Иулии 04"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="4"
+                >
+                    <img
+                        src="images/iulia-05.PNG"
+                        alt="Фотография Иулии 05"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="5"
+                >
+                    <img
+                        src="images/iulia-06.PNG"
+                        alt="Фотография Иулии 06"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="6"
+                >
+                    <img
+                        src="images/iulia-07.PNG"
+                        alt="Фотография Иулии 07"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="7"
+                >
+                    <img
+                        src="images/iulia-08.PNG"
+                        alt="Фотография Иулии 08"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="8"
+                >
+                    <img
+                        src="images/iulia-09.PNG"
+                        alt="Фотография Иулии 09"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="9"
+                >
+                    <img
+                        src="images/iulia-10.PNG"
+                        alt="Фотография Иулии 10"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="10"
+                >
+                    <img
+                        src="images/iulia-11.PNG"
+                        alt="Фотография Иулии 11"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="11"
+                >
+                    <img
+                        src="images/iulia-12.PNG"
+                        alt="Фотография Иулии 12"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="12"
+                >
+                    <img
+                        src="images/iulia-13.PNG"
+                        alt="Фотография Иулии 13"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="13"
+                >
+                    <img
+                        src="images/iulia-14.PNG"
+                        alt="Фотография Иулии 14"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="14"
+                >
+                    <img
+                        src="images/iulia-15.PNG"
+                        alt="Фотография Иулии 15"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="15"
+                >
+                    <img
+                        src="images/iulia-16.PNG"
+                        alt="Фотография Иулии 16"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="16"
+                >
+                    <img
+                        src="images/iulia-17.PNG"
+                        alt="Фотография Иулии 17"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="17"
+                >
+                    <img
+                        src="images/iulia-18.PNG"
+                        alt="Фотография Иулии 18"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="18"
+                >
+                    <img
+                        src="images/iulia-19.PNG"
+                        alt="Фотография Иулии 19"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="19"
+                >
+                    <img
+                        src="images/iulia-20.PNG"
+                        alt="Фотография Иулии 20"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="20"
+                >
+                    <img
+                        src="images/iulia-21.PNG"
+                        alt="Фотография Иулии 21"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="21"
+                >
+                    <img
+                        src="images/iulia-22.PNG"
+                        alt="Фотография Иулии 22"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="22"
+                >
+                    <img
+                        src="images/iulia-23.PNG"
+                        alt="Фотография Иулии 23"
+                        loading="lazy"
+                    >
+                </div>
+
+
+                <div
+                    class="gallery-item"
+                    data-index="23"
+                >
+                    <img
+                        src="images/iulia-24.PNG"
+                        alt="Фотография Иулиии 24"
+                        loading="lazy"
+                    >
+                </div>
+
+            </div>
+
+
+            <div class="gallery-counter reveal">
+
+                <span>24</span>
+                фотографии —
+                одна маленькая история.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         CINEMATIC LIGHTBOX
+    ========================================================== -->
+
+    <div
+        class="gallery-lightbox"
+        id="galleryLightbox"
+        aria-hidden="true"
+    >
+
+        <div class="lightbox-glow"></div>
+
+
+        <div
+            class="lightbox-number"
+            id="lightboxNumber"
+        >
+            01 / 24
+        </div>
+
+
+        <button
+            class="lightbox-close"
+            id="lightboxClose"
+            aria-label="Закрыть"
+        >
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+
+        <button
+            class="lightbox-arrow prev"
+            id="lightboxPrev"
+            aria-label="Предыдущая фотография"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+        </button>
+
+
+        <div class="lightbox-photo">
+
+            <img
+                id="lightboxImage"
+                src=""
+                alt=""
+            >
+
+            <div
+                class="lightbox-caption"
+                id="lightboxCaption"
+            >
+                Страница 01
+            </div>
+
+        </div>
+
+
+        <button
+            class="lightbox-arrow next"
+            id="lightboxNext"
+            aria-label="Следующая фотография"
+        >
+
+            <i class="bi bi-arrow-right"></i>
+
+        </button>
+
+
+        <div class="lightbox-hint">
+
+            ← → &nbsp; для навигации &nbsp; • &nbsp;
+            ESC для закрытия
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         FINAL INTRO
+    ========================================================== -->
+
+    <section class="final-intro">
+
+        <div class="container">
+
+            <div class="final-intro-label reveal">
+                Последняя страница
+            </div>
+
+
+            <h2 class="reveal">
+
+                А теперь,<br>
+
+                <span>
+                    наверное, стоит познакомиться.
+                </span>
+
+            </h2>
+
+
+            <p class="reveal">
+
+                Всё это время здесь были только твои фотографии.
+                Но было бы немного нечестно оставить тебя
+                без фотографии человека,
+                который всё это придумал.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         MY PHOTO
+    ========================================================== -->
+
+    <section
+        class="my-page-section"
+        id="about"
+    >
+
+        <div class="container">
+
+            <div class="my-page">
+
+                <div class="my-page-label reveal">
+                    И вот теперь — я
+                </div>
+
+
+                <div class="my-photo-wrapper reveal">
+
+                    <img
+                        src="images/me.jpg"
+                        alt="Моя фотография"
+                    >
+
+                </div>
+
+
+                <h2 class="my-page-title reveal">
+
+                    Приятно<br>
+
+                    <span>
+                        познакомиться.
+                    </span>
+
+                </h2>
+
+
+                <p class="my-message reveal">
+
+                    Возможно, для тебя это просто
+                    немного необычная страница.
+
+                    <br><br>
+
+                    А для меня —
+                    способ сказать «привет»
+                    немного красивее,
+                    чем обычным сообщением.
+
+                    <br><br>
+
+                    Теперь, думаю,
+                    мы наконец-то познакомились.
+
+                </p>
+
+
+                <div class="signature reveal">
+
+                    Ваня
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        Сделано с <span>♥</span>
+        с надеждой на хорошее знакомство.
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         MUSIC
+    ========================================================== -->
+
+    <button
+        class="music-button"
+        id="musicButton"
+        title="Музыка"
+        aria-label="Музыка"
+    >
+
+        <i class="bi bi-music-note"></i>
+
+    </button>
+
+
+    <audio
+        id="backgroundMusic"
+        loop
+        preload="auto"
+        autoplay
+    >
+
+        <source
+            src="music/NAVAI - Дай знать.mp3"
+            type="audio/wav"
+        >
+
+    </audio>
+
+
+    <!-- =========================================================
+         BOOTSTRAP JS
+    ========================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+<script>
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const mainPage =
+    document.getElementById("mainPage");
+
+const loginError =
+    document.getElementById("loginError");
+
+const music =
+    document.getElementById("backgroundMusic");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+let musicStarted = false;
+
+async function startBackgroundMusic() {
+    if (musicStarted) return true;
+
+    try {
+        music.volume = 0.45;
+        await music.play();
+        musicStarted = true;
+        musicButton.classList.add("playing");
+        musicButton.innerHTML = '<i class="bi bi-pause-fill"></i>';
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+/*
+   Chrome does not allow an unmuted song to start automatically on page load.
+   The first click/touch on the login screen is therefore used to start the
+   music while the password form is still visible. The song then continues
+   after login because the same audio element stays alive.
+*/
+loginScreen.addEventListener("pointerdown", () => {
+    startBackgroundMusic();
+}, { once: true, passive: true });
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("password")
+                .value
+                .trim();
+
+
+        if (
+            username.toLowerCase() === "iulia" &&
+            password === "Elim"
+        ) {
+
+            loginError.classList.remove("show");
+
+            /* If music has not started yet, the submit itself is also a
+               user gesture, so Chrome can start the song here. */
+            await startBackgroundMusic();
+
+            loginScreen.classList.add("hidden");
+
+
+            setTimeout(() => {
+
+                mainPage.classList.add("visible");
+
+                document.body.style.overflowX =
+                    "hidden";
+
+                initializeReveals();
+
+            }, 700);
+
+
+        } else {
+
+            loginError.classList.add("show");
+
+
+            const loginBook =
+                document.querySelector(".login-book");
+
+
+            loginBook.animate(
+                [
+                    {
+                        transform:
+                            "translateX(0) rotate(-.5deg)"
+                    },
+                    {
+                        transform:
+                            "translateX(-8px) rotate(-1deg)"
+                    },
+                    {
+                        transform:
+                            "translateX(8px) rotate(.5deg)"
+                    },
+                    {
+                        transform:
+                            "translateX(-5px) rotate(-.7deg)"
+                    },
+                    {
+                        transform:
+                            "translateX(0) rotate(-.5deg)"
+                    }
+                ],
+                {
+                    duration: 450
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+function initializeReveals() {
+
+    const elements =
+        document.querySelectorAll(".reveal");
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target
+                            .classList
+                            .add("visible");
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: .12
+            }
+        );
+
+
+    elements.forEach(element => {
+
+        observer.observe(element);
+
+    });
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+const navbar =
+    document.querySelector(".navbar");
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if (
+            window.scrollY > 60
+        ) {
+
+            navbar.classList.add(
+                "scrolled"
+            );
+
+        } else {
+
+            navbar.classList.remove(
+                "scrolled"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   GALLERY DATA
+========================================================= */
+
+const galleryPhotos = [
+
+    {
+        image: "images/iulia-01.jpg",
+        caption: "Страница 01"
+    },
+
+    {
+        image: "images/iulia-02.PNG",
+        caption: "Страница 02"
+    },
+
+    {
+        image: "images/iulia-03.PNG",
+        caption: "Страница 03"
+    },
+
+    {
+        image: "images/iulia-04.PNG",
+        caption: "Страница 04"
+    },
+
+    {
+        image: "images/iulia-05.PNG",
+        caption: "Страница 05"
+    },
+
+    {
+        image: "images/iulia-06.PNG",
+        caption: "Страница 06"
+    },
+
+    {
+        image: "images/iulia-07.PNG",
+        caption: "Страница 07"
+    },
+
+    {
+        image: "images/iulia-08.PNG",
+        caption: "Страница 08"
+    },
+
+    {
+        image: "images/iulia-09.PNG",
+        caption: "Страница 09"
+    },
+
+    {
+        image: "images/iulia-10.PNG",
+        caption: "Страница 10"
+    },
+
+    {
+        image: "images/iulia-11.PNG",
+        caption: "Страница 11"
+    },
+
+    {
+        image: "images/iulia-12.PNG",
+        caption: "Страница 12"
+    },
+
+    {
+        image: "images/iulia-13.PNG",
+        caption: "Страница 13"
+    },
+
+    {
+        image: "images/iulia-14.PNG",
+        caption: "Страница 14"
+    },
+
+    {
+        image: "images/iulia-15.PNG",
+        caption: "Страница 15"
+    },
+
+    {
+        image: "images/iulia-16.PNG",
+        caption: "Страница 16"
+    },
+
+    {
+        image: "images/iulia-17.PNG",
+        caption: "Страница 17"
+    },
+
+    {
+        image: "images/iulia-18.PNG",
+        caption: "Страница 18"
+    },
+
+    {
+        image: "images/iulia-19.PNG",
+        caption: "Страница 19"
+    },
+
+    {
+        image: "images/iulia-20.PNG",
+        caption: "Страница 20"
+    },
+
+    {
+        image: "images/iulia-21.PNG",
+        caption: "Страница 21"
+    },
+
+    {
+        image: "images/iulia-22.PNG",
+        caption: "Страница 22"
+    },
+
+    {
+        image: "images/iulia-23.PNG",
+        caption: "Страница 23"
+    },
+
+    {
+        image: "images/iulia-24.PNG",
+        caption: "Последняя страница"
+    }
+
+];
+
+
+/* =========================================================
+   GALLERY ELEMENTS
+========================================================= */
+
+const galleryItems =
+    document.querySelectorAll(
+        ".gallery-item"
+    );
+
+const galleryLightbox =
+    document.getElementById(
+        "galleryLightbox"
+    );
+
+const lightboxImage =
+    document.getElementById(
+        "lightboxImage"
+    );
+
+const lightboxCaption =
+    document.getElementById(
+        "lightboxCaption"
+    );
+
+const lightboxNumber =
+    document.getElementById(
+        "lightboxNumber"
+    );
+
+const lightboxClose =
+    document.getElementById(
+        "lightboxClose"
+    );
+
+const lightboxPrev =
+    document.getElementById(
+        "lightboxPrev"
+    );
+
+const lightboxNext =
+    document.getElementById(
+        "lightboxNext"
+    );
+
+
+let currentGalleryIndex = 0;
+
+let galleryIsAnimating = false;
+
+
+/* =========================================================
+   PRELOAD GALLERY
+========================================================= */
+
+function preloadGalleryImages() {
+
+    galleryPhotos.forEach(photo => {
+
+        const image =
+            new Image();
+
+        image.src =
+            photo.image;
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN GALLERY
+========================================================= */
+
+function openGallery(index) {
+
+    if (
+        index < 0 ||
+        index >= galleryPhotos.length
+    ) {
+        return;
+    }
+
+
+    currentGalleryIndex =
+        index;
+
+
+    updateLightbox();
+
+
+    galleryLightbox.classList.add(
+        "active"
+    );
+
+
+    galleryLightbox.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.classList.add(
+        "gallery-open"
+    );
+
+
+    /*
+        Întunecăm fotografiile din spate.
+    */
+
+    galleryItems.forEach(
+        (item, itemIndex) => {
+
+            item.style.opacity =
+                itemIndex === index
+                    ? "1"
+                    : ".18";
+
+            item.style.filter =
+                itemIndex === index
+                    ? "none"
+                    : "brightness(.45) blur(2px)";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE LIGHTBOX
+========================================================= */
+
+function updateLightbox() {
+
+    const photo =
+        galleryPhotos[
+            currentGalleryIndex
+        ];
+
+
+    if (!photo) {
+        return;
+    }
+
+
+    lightboxImage.style.opacity =
+        "0";
+
+
+    setTimeout(
+        () => {
+
+            lightboxImage.src =
+                photo.image;
+
+            lightboxImage.alt =
+                "Фотография Иулии " +
+                String(
+                    currentGalleryIndex + 1
+                ).padStart(2, "0");
+
+
+            lightboxCaption.textContent =
+                photo.caption;
+
+
+            lightboxNumber.textContent =
+                String(
+                    currentGalleryIndex + 1
+                ).padStart(2, "0") +
+                " / " +
+                String(
+                    galleryPhotos.length
+                ).padStart(2, "0");
+
+
+            lightboxImage.onload =
+                () => {
+
+                    lightboxImage.style.opacity =
+                        "1";
+
+                };
+
+
+        },
+        120
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE GALLERY
+========================================================= */
+
+function closeGallery() {
+
+    galleryLightbox.classList.remove(
+        "active"
+    );
+
+
+    galleryLightbox.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    document.body.classList.remove(
+        "gallery-open"
+    );
+
+
+    galleryItems.forEach(
+        item => {
+
+            item.style.opacity =
+                "";
+
+            item.style.filter =
+                "";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NEXT PHOTO
+========================================================= */
+
+function nextGalleryPhoto() {
+
+    if (galleryIsAnimating) {
+        return;
+    }
+
+
+    galleryIsAnimating = true;
+
+
+    currentGalleryIndex =
+        (
+            currentGalleryIndex + 1
+        ) %
+        galleryPhotos.length;
+
+
+    lightboxImage.animate(
+        [
+            {
+                opacity: 1,
+                transform: "translateX(0)"
+            },
+            {
+                opacity: .25,
+                transform: "translateX(-25px)"
+            },
+            {
+                opacity: 0,
+                transform: "translateX(-45px)"
+            }
+        ],
+        {
+            duration: 220,
+            easing: "ease-in"
+        }
+    );
+
+
+    setTimeout(
+        () => {
+
+            updateLightbox();
+
+            lightboxImage.animate(
+                [
+                    {
+                        opacity: 0,
+                        transform: "translateX(45px)"
+                    },
+                    {
+                        opacity: 1,
+                        transform: "translateX(0)"
+                    }
+                ],
+                {
+                    duration: 420,
+                    easing: "cubic-bezier(.16,1,.3,1)"
+                }
+            );
+
+            galleryIsAnimating = false;
+
+        },
+        220
+    );
+
+}
+
+
+/* =========================================================
+   PREVIOUS PHOTO
+========================================================= */
+
+function previousGalleryPhoto() {
+
+    if (galleryIsAnimating) {
+        return;
+    }
+
+
+    galleryIsAnimating = true;
+
+
+    currentGalleryIndex =
+        (
+            currentGalleryIndex - 1 +
+            galleryPhotos.length
+        ) %
+        galleryPhotos.length;
+
+
+    lightboxImage.animate(
+        [
+            {
+                opacity: 1,
+                transform: "translateX(0)"
+            },
+            {
+                opacity: .25,
+                transform: "translateX(25px)"
+            },
+            {
+                opacity: 0,
+                transform: "translateX(45px)"
+            }
+        ],
+        {
+            duration: 220,
+            easing: "ease-in"
+        }
+    );
+
+
+    setTimeout(
+        () => {
+
+            updateLightbox();
+
+            lightboxImage.animate(
+                [
+                    {
+                        opacity: 0,
+                        transform: "translateX(-45px)"
+                    },
+                    {
+                        opacity: 1,
+                        transform: "translateX(0)"
+                    }
+                ],
+                {
+                    duration: 420,
+                    easing: "cubic-bezier(.16,1,.3,1)"
+                }
+            );
+
+            galleryIsAnimating = false;
+
+        },
+        220
+    );
+
+}
+
+
+/* =========================================================
+   CLICK GALLERY ITEM
+========================================================= */
+
+galleryItems.forEach(
+    item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                const index =
+                    Number(
+                        item.dataset.index
+                    );
+
+
+                openGallery(index);
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   LIGHTBOX BUTTONS
+========================================================= */
+
+lightboxClose.addEventListener(
+    "click",
+    closeGallery
+);
+
+lightboxNext.addEventListener(
+    "click",
+    nextGalleryPhoto
+);
+
+lightboxPrev.addEventListener(
+    "click",
+    previousGalleryPhoto
+);
+
+
+/* =========================================================
+   CLICK BACKGROUND TO CLOSE
+========================================================= */
+
+galleryLightbox.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            galleryLightbox
+        ) {
+
+            closeGallery();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD NAVIGATION
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            !galleryLightbox.classList.contains(
+                "active"
+            )
+        ) {
+            return;
+        }
+
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeGallery();
+
+            return;
+
+        }
+
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            event.preventDefault();
+
+            nextGalleryPhoto();
+
+            return;
+
+        }
+
+
+        if (
+            event.key === "ArrowLeft"
+        ) {
+
+            event.preventDefault();
+
+            previousGalleryPhoto();
+
+            return;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   TOUCH SWIPE LIGHTBOX
+========================================================= */
+
+let galleryTouchStartX = 0;
+
+let galleryTouchEndX = 0;
+
+
+galleryLightbox.addEventListener(
+    "touchstart",
+    event => {
+
+        galleryTouchStartX =
+            event.changedTouches[0]
+                .screenX;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+galleryLightbox.addEventListener(
+    "touchend",
+    event => {
+
+        galleryTouchEndX =
+            event.changedTouches[0]
+                .screenX;
+
+
+        const distance =
+            galleryTouchEndX -
+            galleryTouchStartX;
+
+
+        if (
+            Math.abs(distance) < 50
+        ) {
+            return;
+        }
+
+
+        if (
+            distance < 0
+        ) {
+
+            nextGalleryPhoto();
+
+        } else {
+
+            previousGalleryPhoto();
+
+        }
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+/* =========================================================
+   PRELOAD
+========================================================= */
+
+preloadGalleryImages();
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+/* The audio element remains in the page after the login overlay disappears,
+   so playback continues through the entire site. */
+
+
+musicButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            if (
+                music.paused
+            ) {
+
+                await startBackgroundMusic();
+
+
+                musicButton.innerHTML =
+                    '<i class="bi bi-pause-fill"></i>';
+
+
+            } else {
+
+                music.pause();
+
+
+                musicButton.classList.remove(
+                    "playing"
+                );
+
+
+                musicButton.innerHTML =
+                    '<i class="bi bi-music-note"></i>';
+
+            }
+
+        } catch (error) {
+
+            alert(
+                "Положи песню в папку music под именем song.wav."
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+document.addEventListener(
+    "dblclick",
+    event => {
+
+        if (
+            galleryLightbox.classList.contains(
+                "active"
+            )
+        ) {
+            return;
+        }
+
+
+        const heart =
+            document.createElement("div");
+
+
+        heart.className =
+            "floating-heart";
+
+
+        heart.innerHTML =
+            "♥";
+
+
+        heart.style.left =
+            event.clientX + "px";
+
+
+        heart.style.top =
+            event.clientY + "px";
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+        setTimeout(
+            () => {
+
+                heart.remove();
+
+            },
+            2000
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SMOOTH NAVIGATION
+========================================================= */
+
+document.querySelectorAll(
+    'a[href^="#"]'
+).forEach(
+    link => {
+
+        link.addEventListener(
+            "click",
+            function(event) {
+
+                const targetId =
+                    this.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    targetId === "#"
+                ) {
+
+                    return;
+
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                const navbarHeight =
+                    navbar.offsetHeight;
+
+
+                const position =
+                    target
+                        .getBoundingClientRect()
+                        .top +
+                    window.scrollY -
+                    navbarHeight;
+
+
+                window.scrollTo(
+                    {
+                        top: position,
+                        behavior: "smooth"
+                    }
+                );
+
+
+                const menu =
+                    document.getElementById(
+                        "mainNavigation"
+                    );
+
+
+                if (
+                    menu.classList.contains(
+                        "show"
+                    )
+                ) {
+
+                    const collapse =
+                        bootstrap.Collapse
+                            .getInstance(menu);
+
+
+                    if (collapse) {
+
+                        collapse.hide();
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   IMAGE ERROR HANDLING
+========================================================= */
+
+document.querySelectorAll(
+    ".gallery-item img"
+).forEach(
+    image => {
+
+        image.addEventListener(
+            "error",
+            () => {
+
+                image.style.opacity =
+                    "0";
+
+                image.parentElement.style
+                    .background =
+                    "linear-gradient(135deg,#eee4da,#f8f2eb)";
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+</div>
+
+</body>
+
+</html>
