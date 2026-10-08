@@ -2,6 +2,7 @@
 <html lang="ru">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -3169,6 +3170,18 @@ body{
 }
 </style>
 
+
+<style>
+.my-photo-wrapper { cursor: pointer; }
+.my-photo-lightbox { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 25px; background: rgba(20,14,14,.92); opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s ease; }
+.my-photo-lightbox.active { opacity: 1; visibility: visible; }
+.my-photo-lightbox img { max-width: min(90vw, 850px); max-height: 88vh; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,.45); transform: scale(.92); opacity: 0; transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .35s ease; }
+.my-photo-lightbox.active img { transform: scale(1); opacity: 1; }
+.my-photo-lightbox button { position: absolute; border: 0; background: transparent; color: white; font-size: 38px; cursor: pointer; line-height: 1; }
+.my-photo-lightbox-close { top: 22px; right: 28px; }
+.my-photo-lightbox-prev { left: 24px; }
+.my-photo-lightbox-next { right: 24px; }
+</style>
 </head>
 
 
@@ -4143,21 +4156,18 @@ const musicButton =
 
 let musicStarted = false;
 
-async function startBackgroundMusic() {
-    if (musicStarted) return true;
-
-    try {
-        music.volume = 0.45;
-        await music.play();
-        musicStarted = true;
-        musicButton.classList.add("playing");
-        musicButton.innerHTML = '<i class="bi bi-pause-fill"></i>';
-        return true;
-    } catch (error) {
-        return false;
-    }
+async function startBackgroundMusic() { 
+    try { 
+        music.volume = 0.45; 
+        await music.play(); 
+        musicStarted = true; 
+        musicButton.classList.add("playing"); 
+        musicButton.innerHTML = '<i class="bi bi-pause-fill"></i>'; 
+        return true; 
+    } catch (error) { 
+        return false; 
+    } 
 }
-
 /*
    Chrome does not allow an unmuted song to start automatically on page load.
    The first click/touch on the login screen is therefore used to start the
@@ -5270,6 +5280,34 @@ document.querySelectorAll(
 
 </div>
 
+
+<div class="my-photo-lightbox" id="myPhotoLightbox" aria-hidden="true">
+  <button class="my-photo-lightbox-close" id="myPhotoLightboxClose" aria-label="Close">&times;</button>
+  <button class="my-photo-lightbox-prev" id="myPhotoLightboxPrev" aria-label="Previous">&#10094;</button>
+  <img id="myPhotoLightboxImage" src="" alt="Моя фотография">
+  <button class="my-photo-lightbox-next" id="myPhotoLightboxNext" aria-label="Next">&#10095;</button>
+</div>
+
+<script>
+(() => {
+  const items = Array.from(document.querySelectorAll('.my-photo-wrapper'));
+  const box = document.getElementById('myPhotoLightbox');
+  const image = document.getElementById('myPhotoLightboxImage');
+  const close = document.getElementById('myPhotoLightboxClose');
+  const prev = document.getElementById('myPhotoLightboxPrev');
+  const next = document.getElementById('myPhotoLightboxNext');
+  let index = 0;
+  const open = i => { index=i; image.src=items[index].querySelector('img').src; box.classList.add('active'); box.setAttribute('aria-hidden','false'); };
+  const hide = () => { box.classList.remove('active'); box.setAttribute('aria-hidden','true'); };
+  const change = step => { index=(index+step+items.length)%items.length; image.style.opacity='0'; setTimeout(() => { image.src=items[index].querySelector('img').src; image.style.opacity=''; },160); };
+  items.forEach((item,i)=>item.addEventListener('click',()=>open(i)));
+  close.addEventListener('click',hide);
+  prev.addEventListener('click',()=>change(-1));
+  next.addEventListener('click',()=>change(1));
+  box.addEventListener('click',e=>{if(e.target===box) hide();});
+  document.addEventListener('keydown',e=>{if(!box.classList.contains('active')) return; if(e.key==='Escape') hide(); if(e.key==='ArrowLeft') change(-1); if(e.key==='ArrowRight') change(1);});
+})();
+</script>
 </body>
 
 </html>
