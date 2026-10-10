@@ -1533,8 +1533,10 @@ body::before {
 
     background: #eee5dc;
 
+    /* Same fade timing as the me.jpg / me1.JPG lightbox */
+    opacity: 1;
     transition:
-        opacity .25s ease;
+        opacity .35s ease;
 }
 
 
@@ -4526,16 +4528,38 @@ let galleryIsAnimating = false;
    PRELOAD GALLERY
 ========================================================= */
 
+const galleryImageCache = new Map();
+
+function loadGalleryImage(source) {
+
+    if (galleryImageCache.has(source)) {
+        return galleryImageCache.get(source);
+    }
+
+    const promise = new Promise((resolve, reject) => {
+        const image = new Image();
+
+        image.onload = () => resolve(image);
+        image.onerror = () => {
+            galleryImageCache.delete(source);
+            reject(new Error("Nu s-a putut încărca fotografia: " + source));
+        };
+
+        image.src = source;
+
+        if (image.complete && image.naturalWidth > 0) {
+            resolve(image);
+        }
+    });
+
+    galleryImageCache.set(source, promise);
+    return promise;
+}
+
 function preloadGalleryImages() {
 
     galleryPhotos.forEach(photo => {
-
-        const image =
-            new Image();
-
-        image.src =
-            photo.image;
-
+        loadGalleryImage(photo.image).catch(() => {});
     });
 
 }
@@ -4605,62 +4629,35 @@ function openGallery(index) {
    UPDATE LIGHTBOX
 ========================================================= */
 
-function updateLightbox() {
+async function updateLightbox() {
 
-    const photo =
-        galleryPhotos[
-            currentGalleryIndex
-        ];
+    const photo = galleryPhotos[currentGalleryIndex];
 
+    if (!photo) return;
 
-    if (!photo) {
-        return;
+    lightboxImage.style.opacity = "0";
+
+    try {
+        const loadedImage = await loadGalleryImage(photo.image);
+
+        lightboxImage.src = loadedImage.src;
+        lightboxImage.alt =
+            "Фотография Иулии " +
+            String(currentGalleryIndex + 1).padStart(2, "0");
+
+        lightboxCaption.textContent = photo.caption;
+        lightboxNumber.textContent =
+            String(currentGalleryIndex + 1).padStart(2, "0") +
+            " / " +
+            String(galleryPhotos.length).padStart(2, "0");
+
+        requestAnimationFrame(() => {
+            lightboxImage.style.opacity = "1";
+        });
+    } catch (error) {
+        lightboxImage.style.opacity = "1";
+        console.error(error);
     }
-
-
-    lightboxImage.style.opacity =
-        "0";
-
-
-    setTimeout(
-        () => {
-
-            lightboxImage.src =
-                photo.image;
-
-            lightboxImage.alt =
-                "Фотография Иулии " +
-                String(
-                    currentGalleryIndex + 1
-                ).padStart(2, "0");
-
-
-            lightboxCaption.textContent =
-                photo.caption;
-
-
-            lightboxNumber.textContent =
-                String(
-                    currentGalleryIndex + 1
-                ).padStart(2, "0") +
-                " / " +
-                String(
-                    galleryPhotos.length
-                ).padStart(2, "0");
-
-
-            lightboxImage.onload =
-                () => {
-
-                    lightboxImage.style.opacity =
-                        "1";
-
-                };
-
-
-        },
-        120
-    );
 
 }
 
@@ -4703,151 +4700,50 @@ function closeGallery() {
 
 
 /* =========================================================
-   NEXT PHOTO
+   SMOOTH PHOTO SWITCHING
 ========================================================= */
 
-function nextGalleryPhoto() {
+async function changeGalleryPhoto(direction) {
 
-    if (galleryIsAnimating) {
-        return;
-    }
-
+    if (galleryIsAnimating || !galleryPhotos.length) return;
 
     galleryIsAnimating = true;
 
+    try {
+        const nextIndex =
+            (currentGalleryIndex + direction + galleryPhotos.length) %
+            galleryPhotos.length;
+        const nextPhoto = galleryPhotos[nextIndex];
 
-    currentGalleryIndex =
-        (
-            currentGalleryIndex + 1
-        ) %
-        galleryPhotos.length;
-
-
-    lightboxImage.animate(
-        [
-            {
-                opacity: 1,
-                transform: "translateX(0)"
-            },
-            {
-                opacity: .25,
-                transform: "translateX(-25px)"
-            },
-            {
-                opacity: 0,
-                transform: "translateX(-45px)"
-            }
-        ],
-        {
-            duration: 220,
-            easing: "ease-in"
+        // Use the same simple fade used by the me.jpg / me1.JPG viewer.
+        // Prepare the next image first so it does not flash or appear late.
+        if (nextPhoto) {
+            await loadGalleryImage(nextPhoto.image);
         }
-    );
 
+        lightboxImage.style.opacity = "0";
 
-    setTimeout(
-        () => {
+        // Match the outgoing fade timing of the personal-photo viewer.
+        await new Promise(resolve => setTimeout(resolve, 160));
 
-            updateLightbox();
+        currentGalleryIndex = nextIndex;
+        await updateLightbox();
 
-            lightboxImage.animate(
-                [
-                    {
-                        opacity: 0,
-                        transform: "translateX(45px)"
-                    },
-                    {
-                        opacity: 1,
-                        transform: "translateX(0)"
-                    }
-                ],
-                {
-                    duration: 420,
-                    easing: "cubic-bezier(.16,1,.3,1)"
-                }
-            );
-
-            galleryIsAnimating = false;
-
-        },
-        220
-    );
+    } catch (error) {
+        console.debug("Gallery transition interrupted.", error);
+        lightboxImage.style.opacity = "1";
+    } finally {
+        galleryIsAnimating = false;
+    }
 
 }
 
-
-/* =========================================================
-   PREVIOUS PHOTO
-========================================================= */
+function nextGalleryPhoto() {
+    return changeGalleryPhoto(1);
+}
 
 function previousGalleryPhoto() {
-
-    if (galleryIsAnimating) {
-        return;
-    }
-
-
-    galleryIsAnimating = true;
-
-
-    currentGalleryIndex =
-        (
-            currentGalleryIndex - 1 +
-            galleryPhotos.length
-        ) %
-        galleryPhotos.length;
-
-
-    lightboxImage.animate(
-        [
-            {
-                opacity: 1,
-                transform: "translateX(0)"
-            },
-            {
-                opacity: .25,
-                transform: "translateX(25px)"
-            },
-            {
-                opacity: 0,
-                transform: "translateX(45px)"
-            }
-        ],
-        {
-            duration: 220,
-            easing: "ease-in"
-        }
-    );
-
-
-    setTimeout(
-        () => {
-
-            updateLightbox();
-
-            lightboxImage.animate(
-                [
-                    {
-                        opacity: 0,
-                        transform: "translateX(-45px)"
-                    },
-                    {
-                        opacity: 1,
-                        transform: "translateX(0)"
-                    }
-                ],
-                {
-                    duration: 420,
-                    easing: "cubic-bezier(.16,1,.3,1)"
-                }
-            );
-
-            galleryIsAnimating = false;
-
-        },
-        220
-    );
-
+    return changeGalleryPhoto(-1);
 }
 
 
